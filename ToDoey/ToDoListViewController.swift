@@ -10,10 +10,18 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {
 
-    var itemArray = ["Turn in Report", "Buy Eggs", "Submit Timesheet"]
+    //var itemArray = ["Turn in Report", "Buy Eggs", "Submit Timesheet"]
+    var itemArray = [""]
+    
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
+            itemArray = items
+        }
+        
         
     }
 
@@ -56,6 +64,9 @@ class ToDoListViewController: UITableViewController {
             //print(textField.text)
             // enter validation code to make certain field is not blank
             self.itemArray.append(textField.text!)
+            
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
+            
             // reloads the table view with newly added item
             self.tableView.reloadData()
         }
